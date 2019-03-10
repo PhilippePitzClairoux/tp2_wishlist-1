@@ -58,8 +58,48 @@ public class Item {
     /**
      * Updates the information of the item.
      */
-    public void update() {
+    public void update(Integer id_currency, Integer id_item_category) {
 
+        Connection conn = SimpleDataSource.getConnection();
+
+        try {
+            PreparedStatement stat = conn.prepareStatement(
+                    "UPDATE item SET name = ?, price = ?, link = ?, description = ?," +
+                            " id_currency = ?, id_item_category = ? WHERE id_item = ?");
+
+            stat.setString(1, name);
+            stat.setDouble(2, price);
+            stat.setString(3, url);
+            stat.setString(4, description);
+            stat.setInt(5, id_currency);
+            stat.setInt(6, id_item_category);
+            stat.setInt(7, this.getId());
+            stat.executeUpdate();
+        } finally {
+            conn.close();
+        }
+
+    }
+
+    public Integer getId() {
+        Connection conn = SimpleDataSource.getConnection();
+
+        try {
+
+            PreparedStatement stat = conn.prepareStatement("SELECT id_item FROM item WHERE name = ?");
+
+            stat.setString(1, this.name);
+
+            stat.execute();
+            ResultSet rs = stat.getResultSet();
+
+            if (rs.next()) {
+                return rs.getInt("id_item");
+            }
+
+        } finally {
+            conn.close();
+        }
     }
 
     /**
