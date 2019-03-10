@@ -4,6 +4,8 @@ import tp2_wishlist.SimpleDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An item the user wishes to get or wants to achieve. It has a name and can
@@ -106,7 +108,7 @@ public class Item {
             stat.close();
 
         } catch(SQLException e) {
-
+            Logger.getLogger(ItemCategory.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             conn.close();
         }
