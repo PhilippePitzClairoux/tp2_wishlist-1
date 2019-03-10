@@ -81,6 +81,38 @@ public class Item {
 
     }
 
+    /**
+     * Removes the item from the database
+     */
+    public void removeItem(Integer wishlistID) {
+
+        Connection conn = ConnectionManager.getConnection();
+
+        try {
+            PreparedStatement stat = conn.prepareStatement(
+                    "DELETE FROM ta_wishlist_item WHERE id_item = ? AND id_wishlist = ?");
+            stat.setInt(1, 1); //this.getId();
+            stat.setInt(2, wishlistID);
+
+            stat.executeUpdate();
+            stat.close();
+
+            stat = conn.prepareStatement(
+                    "DELETE FROM item WHERE id_item = ?");
+
+            stat.setInt(1, 1);
+
+            stat.executeUpdate();
+            stat.close();
+
+        } catch(SQLException e) {
+
+        } finally {
+            conn.close();
+        }
+
+    }
+
     public Integer getId() {
         Connection conn = SimpleDataSource.getConnection();
 
