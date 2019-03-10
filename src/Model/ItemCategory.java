@@ -28,8 +28,23 @@ public class ItemCategory {
     /**
      * Inserts the category of item in the database.
      */
-    public void insert() {
+    public void insert() throws SQLException {
 
+        Connection conn = SimpleDataSource.getConnection();
+        PreparedStatement stat = conn.prepareStatement(
+                "INSERT INTO item_category(item_category.name) VALUES (?)");
+
+        try {
+
+            stat.setString(1, this.getListCategoryName());
+            stat.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemCategory.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            stat.close();
+            conn.close();
+        }
     }
 
     /**
