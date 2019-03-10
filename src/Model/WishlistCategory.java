@@ -20,6 +20,23 @@ public class WishlistCategory {
      * Creates the category in the database if it doesn't already exist
      */
     public void createCategory() {
+        Connection conn = SimpleDataSource.getConnection();
+
+        try {
+            Connection conn = ConnectionManager.getConnection();
+            PreparedStatement stat = conn.prepareStatement(
+                    "INSERT INTO wishlist_category(wishlist_category.name) VALUES (?)");
+
+            stat.setString(1, this.name);
+            stat.executeUpdate();
+
+            stat.close();
+
+        } catch (SQLException e) {
+
+        } finally {
+            conn.close();
+        }
 
     }
 
